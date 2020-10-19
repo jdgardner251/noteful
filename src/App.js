@@ -1,25 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Route } from "react-router-dom";
+import Sidebar from "./Sidebar";
+import Main from "./Main";
+import FolderList from "./FolderList";
+import AddFolder from './AddFolder';
+import NoteSidebar from './NoteSidebar'
+import NoteList from './NoteList'
+import NoteDetail from './NoteDetail'
+import './App.css'
 
-function App() {
+function App(props) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="App">
+      <>
+        <Sidebar>
+          <Route exact path="/">
+            <>
+              <FolderList store={props.store} />
+              <AddFolder />
+            </>
+          </Route>
+          <Route path="/folder/:folder-id">
+            <>
+              <FolderList />
+              <AddFolder />
+            </>
+          </Route>
+          <Route path="/note/:note-id">
+            <NoteSidebar />
+          </Route>
+        </Sidebar>
+        <Main>
+          <Route exact path="/">
+            <NoteList store={props.store} />
+          </Route>
+          <Route path="/folder/:folder-id">
+            <NoteList />
+          </Route>
+          <Route path="/note/:note-id">
+            <NoteDetail />
+          </Route>
+        </Main>
+      </>
+    </main>
   );
 }
 
