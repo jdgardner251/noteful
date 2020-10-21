@@ -1,6 +1,4 @@
-
-.folder-list {
-    width: 200px;
+.note-list {
     list-style-type: none;
     box-shadow: 0 2px 5px #ccc;
     border: 1px solid gray;

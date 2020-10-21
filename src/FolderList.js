@@ -1,14 +1,16 @@
 import React from "react";
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import "./FolderList.css";
 
 function FolderList(props) {
+ console.log(props.store)
+
   const folders = props.store.folders.map((folder) => (
-    <li key={folder.id}>
-      <Link to={`/folder/${folder.id}`}>{folder.name}</Link>
+    <li className="folder-list" key={folder.id}>
+      <NavLink to={`/folder/${folder.id}`}>{folder.name}</NavLink>
     </li>
   ));
-  return <ul className="folder-list">{folders}</ul>;
+  return <ul >{folders}</ul>;
 }
 
 export default FolderList;

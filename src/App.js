@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, useParams } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Main from "./Main";
 import FolderList from "./FolderList";
@@ -11,6 +11,10 @@ import "./App.css";
 import Header from "./Header";
 
 function App(props) {
+const folderId = useParams();
+const noteListFull = props.store.notes
+const noteListData = props.store.notes.filter(note => note.id === folderId)
+
   return (
     <main className="App">
       <>
@@ -22,24 +26,24 @@ function App(props) {
               <AddFolder />
             </>
           </Route>
-          <Route path="/folder/:folder-id">
+          <Route path="/folder/:folderId">
             <>
-              <FolderList />
+              <FolderList store={props.store} />
               <AddFolder />
             </>
           </Route>
-          <Route path="/note/:note-id">
+          <Route path="/note/:noteId">
             <NoteSidebar />
           </Route>
         </Sidebar>
         <Main>
           <Route exact path="/">
-            <NoteList store={props.store} />
+            <NoteList notes={noteListFull} />
           </Route>
-          <Route path="/folder/:folder-id">
-            <NoteList />
+          <Route path="/folder/:folderId">
+            <NoteList notes={noteListData} />
           </Route>
-          <Route path="/note/:note-id">
+          <Route path="/note/:noteId">
             <NoteDetail />
           </Route>
         </Main>
