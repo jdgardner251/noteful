@@ -5,7 +5,7 @@ body {
 
 .App {
     display: grid;
-    grid-template-columns: 30% auto;
+    /* grid-template-columns: 30% auto; */
 }
 
 

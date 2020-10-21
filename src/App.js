@@ -3,16 +3,18 @@ import { Route } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Main from "./Main";
 import FolderList from "./FolderList";
-import AddFolder from './AddFolder';
-import NoteSidebar from './NoteSidebar'
-import NoteList from './NoteList'
-import NoteDetail from './NoteDetail'
-import './App.css'
+import AddFolder from "./AddFolder";
+import NoteSidebar from "./NoteSidebar";
+import NoteList from "./NoteList";
+import NoteDetail from "./NoteDetail";
+import "./App.css";
+import Header from "./Header";
 
 function App(props) {
   return (
     <main className="App">
       <>
+        <Header />
         <Sidebar>
           <Route exact path="/">
             <>
