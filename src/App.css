@@ -3,11 +3,9 @@ body {
     
 }
 
-.App {
-    display: grid;
-    /* grid-template-columns: 30% auto; */
+.flex-container {
+    display: flex;
 }
-
 
 
   

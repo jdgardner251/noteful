@@ -1,20 +1,18 @@
-import React from 'react'
-import './NoteList.css'
+import React from "react";
+import { Link, useParams } from "react-router-dom";
+import Note from './Note'
+import "./NoteList.css";
 
+function NoteList(props) {
+  const { folderId } = useParams();
+  const noteListData = folderId
+    ? props.notes.filter((note) => note.folderId === folderId)
+    : props.notes;
 
-function NoteList(props){
-    const notes = props.notes.map(note =>
-        <li class='note-list' key={note.id}>
-            <h3>{note.name}</h3>
-            <p>Last modified {note.modified}</p>
-            <button>Delete</button>
-        </li>
-        )
-    return (
-        <ul>
-            {notes}
-        </ul>
-    )
+  const notes = noteListData.map((note) => (
+    <Note note={note} />
+  ));
+  return <ul>{notes}</ul>;
 }
 
 export default NoteList;

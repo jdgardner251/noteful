@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, useParams } from "react-router-dom";
+import { Route, useParams, withRouter } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Main from "./Main";
 import FolderList from "./FolderList";
@@ -9,16 +9,14 @@ import NoteList from "./NoteList";
 import NoteDetail from "./NoteDetail";
 import "./App.css";
 import Header from "./Header";
+import store from "./store";
 
 function App(props) {
-const folderId = useParams();
-const noteListFull = props.store.notes
-const noteListData = props.store.notes.filter(note => note.id === folderId)
-
   return (
     <main className="App">
       <>
         <Header />
+        <div className='flex-container'>
         <Sidebar>
           <Route exact path="/">
             <>
@@ -38,18 +36,27 @@ const noteListData = props.store.notes.filter(note => note.id === folderId)
         </Sidebar>
         <Main>
           <Route exact path="/">
-            <NoteList notes={noteListFull} />
+            <NoteList notes={props.store.notes} />
           </Route>
           <Route path="/folder/:folderId">
-            <NoteList notes={noteListData} />
+            <NoteList notes={props.store.notes} />
           </Route>
-          <Route path="/note/:noteId">
-            <NoteDetail />
-          </Route>
+        
+          <Route
+            path="/note/:noteId"
+            render={(routerProps) => (
+              <NoteDetail
+                note={props.store.notes.find(
+                  (note) => note.id === routerProps.match.params.noteId
+                )}
+              />
+            )}
+          />
         </Main>
+        </div>
       </>
     </main>
   );
 }
 
-export default App;
+export default withRouter(App);
