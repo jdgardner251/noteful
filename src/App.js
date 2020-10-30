@@ -39,10 +39,17 @@ function App(props) {
       });
   }, []);
 
+  const deleteNote = (noteId) => {
+    const newNotes = notes.filter(note => 
+      note.id !== noteId 
+      )
+      setNotes(newNotes)
+  }
+
   return (
     <main className="App">
       <>
-        <StoreContext.Provider value={{ folders, notes }}>
+        <StoreContext.Provider value={{ folders, notes, deleteNote }}>
           <Header />
           <div className="flex-container">
             <Sidebar>
