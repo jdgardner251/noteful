@@ -2,20 +2,30 @@ import React, { useState } from "react";
 
 const AddNote = (props) => {
   const [click, setClick] = useState({ clicked: false });
-  const [noteName, setNoteName] = useState({ name: '' });
-  const [content, setContent] = useState({ content: ''})
+  const [noteItem, setNoteItem] = useState({ 
+      name: '',
+      modified: 'Now',
+      folderId: '',
+      content: '' 
+ });
 
   const updateClick = () => {
     setClick({ clicked: true });
   };
 
-  const updateNoteName = (input) => {
-      setNoteName({ name: input })
-      console.log(noteName)
+  const updateNoteItemName = (input) => {
+      setNoteItem({ name: input })
+      console.log(noteItem.name)
   }
 
-  const updateContent = (input) => {
-      setContent({ content: input})
+  const updateNoteItemContent = (input) => {
+      setNoteItem({ content: input})
+      console.log(noteItem.content)
+  }
+
+  const updateNoteItemFolderID = (input) => {
+      console.log(input)
+      setNoteItem({folderId: input})
   }
 
   const handleSubmit = (e) => {
@@ -23,7 +33,7 @@ const AddNote = (props) => {
       console.log(e);
         fetch(`http://localhost:9090/notes`, {
         method: "POST",
-        body: JSON.stringify(noteName), //what do I send in here?
+        body: JSON.stringify(noteItem), //what do I send in here?
         headers: {
           "Content-Type": "application/json",
     }
@@ -38,7 +48,7 @@ const AddNote = (props) => {
         };
 
   const folderItems = props.folders.map((folder) => (
-    <option key={folder.id}>
+    <option key={folder.id} id={folder.id}>
       {folder.name}
     </option>
   ))
@@ -50,20 +60,20 @@ const AddNote = (props) => {
         <form onSubmit={(e) => handleSubmit(e)}>
           <label htmlFor="name">Note Name</label>
           <input
-            onChange={(e) => updateNoteName(e.target.value)}
+            onChange={(e) => updateNoteItemName(e.target.value)}
             type="text"
             name="name"
             id="name"
           ></input>
           <label htmlFor="content">Content</label>
           <input
-            onChange={(e) => updateContent(e.target.value)}
+            onChange={(e) => updateNoteItemContent(e.target.value)}
             type="text"
             name="content"
             id="content"
           ></input>
           <label htmlFor="folder">Select Folder:</label>
-          <select id='folder' name='folder' >
+          <select onChange={(e) => updateNoteItemFolderID(e)} id='folder' name='folder' >
             {folderItems}
           </select>
           <button type="submit">Submit</button>
