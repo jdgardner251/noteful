@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import StoreContext from "./storeContext";
+import PropTypes from 'prop-types'
 
 function Note(props) {
   const { deleteNote } = useContext(StoreContext)
@@ -34,6 +35,10 @@ function Note(props) {
       </button>
     </li>
   );
+}
+
+Note.propTypes = {
+  folders: PropTypes.object.isRequired
 }
 
 export default Note;

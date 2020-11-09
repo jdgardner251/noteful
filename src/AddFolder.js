@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import StoreContext from "./storeContext";
 
 const AddFolder = () => {
-  const [click, setClick] = useState({ clicked: false });
+  const [click, setClick] = useState(false);
   const [folderName, setFolderName] = useState({ name: "" });
 
+  const { addFolder } = useContext(StoreContext)
+
   const updateClick = () => {
-    setClick({ clicked: true });
+    setClick(true);
   };
 
   const updateFolderName = (input) => {
@@ -28,13 +31,20 @@ const AddFolder = () => {
         }
         return res.json();
       })
-      .then((data) => console.log("success:", data));
+      .then((data) => {
+          addFolder(data)
+          setClick(false)
+        
+        })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
     <div>
       <button onClick={() => updateClick()}>Add Folder</button>
-      {click.clicked && (
+      {click && (
         <form onSubmit={(e) => handleSubmit(e)}>
           <label htmlFor="name">Folder Name</label>
           <input

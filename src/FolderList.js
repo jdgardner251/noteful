@@ -2,8 +2,9 @@ import React, { useContext }from "react";
 import { NavLink, useParams } from 'react-router-dom'
 import "./FolderList.css";
 import StoreContext from './storeContext'
+import PropTypes from 'prop-types'
 
-function FolderList(props) {
+function FolderList() {
   const { folderId } = useParams();
   const { folders } = useContext(StoreContext)
 
@@ -16,5 +17,6 @@ function FolderList(props) {
   ));
   return <ul className='folder-ul'>{folderItems}</ul>;
 }
+
 
 export default FolderList;

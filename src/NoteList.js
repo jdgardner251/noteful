@@ -5,7 +5,7 @@ import "./NoteList.css";
 import StoreContext from './storeContext'
 import AddNote from './AddNote'
 
-function NoteList(props) {
+function NoteList() {
   const { folderId } = useParams();
   const { folders, notes } = useContext(StoreContext) // need both to 
   // pass into both Note component and AddNote component. 

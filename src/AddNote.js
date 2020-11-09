@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import StoreContext from "./storeContext";
+import PropTypes from 'prop-types'
 
 const AddNote = (props) => {
-  const [click, setClick] = useState({ clicked: false });
+  const [click, setClick] = useState(false);
   const [noteItem, setNoteItem] = useState({ 
       name: '',
       modified: 'Now',
@@ -9,23 +11,29 @@ const AddNote = (props) => {
       content: '' 
  });
 
+ const { addNote } = useContext(StoreContext)
+
   const updateClick = () => {
-    setClick({ clicked: true });
+    setClick(true);
   };
 
   const updateNoteItemName = (input) => {
-      setNoteItem({ name: input })
+      setNoteItem({ ...noteItem, name: input })
       console.log(noteItem.name)
   }
 
   const updateNoteItemContent = (input) => {
-      setNoteItem({ content: input})
+      setNoteItem({ ...noteItem, content: input})
       console.log(noteItem.content)
   }
 
   const updateNoteItemFolderID = (input) => {
       console.log(input)
-      setNoteItem({folderId: input})
+      setNoteItem({...noteItem, folderId: input})
+  }
+
+  const validateName = () => {
+          return 'Name is Required'
   }
 
   const handleSubmit = (e) => {
@@ -44,11 +52,17 @@ const AddNote = (props) => {
             }
             return res.json();
         })
-        .then((data) => console.log("success:", data));   
+        .then((data) => {
+            addNote(data)
+            setClick(false)
+        })
+        .catch((error) => {
+            console.log(error);
+          });   
         };
 
   const folderItems = props.folders.map((folder) => (
-    <option key={folder.id} id={folder.id}>
+    <option value={folder.id} key={folder.id} id={folder.id}>
       {folder.name}
     </option>
   ))
@@ -56,7 +70,7 @@ const AddNote = (props) => {
   return (
     <div>
       <button onClick={() => updateClick()}>Add Note</button>
-      {click.clicked && (
+      {click && (
         <form onSubmit={(e) => handleSubmit(e)}>
           <label htmlFor="name">Note Name</label>
           <input
@@ -65,6 +79,7 @@ const AddNote = (props) => {
             name="name"
             id="name"
           ></input>
+          {(noteItem.name.length === 0) && <div>{validateName()}</div>}
           <label htmlFor="content">Content</label>
           <input
             onChange={(e) => updateNoteItemContent(e.target.value)}
@@ -73,7 +88,7 @@ const AddNote = (props) => {
             id="content"
           ></input>
           <label htmlFor="folder">Select Folder:</label>
-          <select onChange={(e) => updateNoteItemFolderID(e)} id='folder' name='folder' >
+          <select onChange={(e) => updateNoteItemFolderID(e.target.value)} id='folder' name='folder' >
             {folderItems}
           </select>
           <button type="submit">Submit</button>
@@ -82,5 +97,9 @@ const AddNote = (props) => {
     </div>
   );
 };
+
+AddNote.propTypes = {
+  folders: PropTypes.array.isRequired
+}
 
 export default AddNote;

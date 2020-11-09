@@ -10,6 +10,7 @@ import NoteDetail from "./NoteDetail";
 import "./App.css";
 import Header from "./Header";
 import StoreContext from "./storeContext";
+import AppError from "./AppError";
 
 function App(props) {
   const [folders, setFolders] = useState([]);
@@ -46,10 +47,21 @@ function App(props) {
       setNotes(newNotes)
   }
 
+  const addFolder = (folder) => {
+    const newFolderList = [...folders, folder]
+    setFolders(newFolderList)
+  }
+
+  const addNote = (note) => {
+    const newNoteList = [...notes, note]
+    setNotes(newNoteList)
+  }
+
   return (
     <main className="App">
       <>
-        <StoreContext.Provider value={{ folders, notes, deleteNote }}>
+      <AppError>
+        <StoreContext.Provider value={{ folders, notes, deleteNote, addFolder, addNote }}>
           <Header />
           <div className="flex-container">
             <Sidebar>
@@ -90,6 +102,7 @@ function App(props) {
             </Main>
           </div>
         </StoreContext.Provider>
+        </AppError>
       </>
     </main>
   );
