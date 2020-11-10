@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import StoreContext from "./storeContext";
 import PropTypes from 'prop-types'
 
-const AddNote = (props) => {
+const AddNote = ({ folders }) => {
   const [click, setClick] = useState(false);
   const [noteItem, setNoteItem] = useState({ 
       name: '',
@@ -61,7 +61,7 @@ const AddNote = (props) => {
           });   
         };
 
-  const folderItems = props.folders.map((folder) => (
+  const folderItems = folders.map((folder) => (
     <option value={folder.id} key={folder.id} id={folder.id}>
       {folder.name}
     </option>

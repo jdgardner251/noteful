@@ -94,7 +94,7 @@ function App(props) {
                 render={(routerProps) => (
                   <NoteDetail
                     note={notes.find(
-                      (note) => note.id === routerProps.match.params.noteId
+                      (note) => note.id == routerProps.match.params.noteId
                     )}
                   />
                 )}

@@ -1,11 +1,11 @@
 import React, { useContext }from "react";
-import { NavLink, useParams } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import "./FolderList.css";
 import StoreContext from './storeContext'
-import PropTypes from 'prop-types'
+
 
 function FolderList() {
-  const { folderId } = useParams();
+  // const { folderId } = useParams();
   const { folders } = useContext(StoreContext)
 
 

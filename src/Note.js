@@ -38,7 +38,7 @@ function Note(props) {
 }
 
 Note.propTypes = {
-  folders: PropTypes.object.isRequired
+  note: PropTypes.object.isRequired
 }
 
 export default Note;

@@ -16,6 +16,10 @@ const AddFolder = () => {
     console.log(folderName);
   };
 
+  const validateName = () => {
+    return 'Name is Required'
+}
+
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch(`http://localhost:9090/folders`, {
@@ -53,6 +57,7 @@ const AddFolder = () => {
             name="name"
             id="name"
           ></input>
+          {(folderName.name.length === 0) && <div>{validateName()}</div>}
           <button type="submit">Submit</button>
         </form>
       )}
