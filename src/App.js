@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, withRouter } from "react-router-dom";
+import { Route, withRouter, useHistory } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Main from "./Main";
 import FolderList from "./FolderList";
@@ -15,6 +15,7 @@ import AppError from "./AppError";
 function App(props) {
   const [folders, setFolders] = useState([]);
   const [notes, setNotes] = useState([]);
+  const history = useHistory()
 
   useEffect(() => {
     Promise.all([
@@ -45,6 +46,7 @@ function App(props) {
       note.id !== noteId 
       )
       setNotes(newNotes)
+      history.goBack()
   }
 
   const addFolder = (folder) => {
@@ -94,7 +96,7 @@ function App(props) {
                 render={(routerProps) => (
                   <NoteDetail
                     note={notes.find(
-                      (note) => note.id == routerProps.match.params.noteId
+                      (note) => note.id === routerProps.match.params.noteId
                     )}
                   />
                 )}

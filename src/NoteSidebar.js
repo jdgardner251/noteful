@@ -12,7 +12,6 @@ function NoteSidebar(){
     return (
         <div className='note-sidebar'>
             <button onClick={() => goBackHandle()}>Go Back</button>
-            <h2></h2>
         </div>
     )
 }

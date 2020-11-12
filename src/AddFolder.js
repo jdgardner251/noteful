@@ -4,6 +4,7 @@ import StoreContext from "./storeContext";
 const AddFolder = () => {
   const [click, setClick] = useState(false);
   const [folderName, setFolderName] = useState({ name: "" });
+  const [error, setError] = useState(null)
 
   const { addFolder } = useContext(StoreContext)
 
@@ -13,15 +14,20 @@ const AddFolder = () => {
 
   const updateFolderName = (input) => {
     setFolderName({ name: input });
-    console.log(folderName);
   };
 
   const validateName = () => {
-    return 'Name is Required'
+    if (folderName.name.length === 0) {
+      setError('Name is required')
+      return false
+    }
+    return true
 }
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    if (validateName()){
     fetch(`http://localhost:9090/folders`, {
       method: "POST",
       body: JSON.stringify(folderName),
@@ -44,6 +50,7 @@ const AddFolder = () => {
         console.log(error);
       });
   };
+}
 
   return (
     <div>
@@ -57,7 +64,7 @@ const AddFolder = () => {
             name="name"
             id="name"
           ></input>
-          {(folderName.name.length === 0) && <div>{validateName()}</div>}
+          {(error) && <div>{error}</div>}
           <button type="submit">Submit</button>
         </form>
       )}

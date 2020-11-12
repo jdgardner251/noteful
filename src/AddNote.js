@@ -1,15 +1,27 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import StoreContext from "./storeContext";
 import PropTypes from 'prop-types'
 
 const AddNote = ({ folders }) => {
+
+  useEffect(() => {
+    if (folders.length) {
+      updateNoteItemFolderID(folders[0].id)
+    } 
+  },
+  [folders]
+  )
+
   const [click, setClick] = useState(false);
   const [noteItem, setNoteItem] = useState({ 
       name: '',
-      modified: 'Now',
+      modified: Date.now(),
       folderId: '',
       content: '' 
  });
+  const [error, setError] = useState();
+
+
 
  const { addNote } = useContext(StoreContext)
 
@@ -19,26 +31,31 @@ const AddNote = ({ folders }) => {
 
   const updateNoteItemName = (input) => {
       setNoteItem({ ...noteItem, name: input })
-      console.log(noteItem.name)
+      
   }
 
   const updateNoteItemContent = (input) => {
       setNoteItem({ ...noteItem, content: input})
-      console.log(noteItem.content)
+      
   }
 
   const updateNoteItemFolderID = (input) => {
-      console.log(input)
+      
       setNoteItem({...noteItem, folderId: input})
   }
 
   const validateName = () => {
-          return 'Name is Required'
+    if (noteItem.name.length === 0){
+      setError('Name is Required')
+      return false
+    }
+          return true
   }
 
   const handleSubmit = (e) => {
       e.preventDefault();
-      console.log(e);
+      if (validateName()) {
+      
         fetch(`http://localhost:9090/notes`, {
         method: "POST",
         body: JSON.stringify(noteItem), //what do I send in here?
@@ -58,7 +75,8 @@ const AddNote = ({ folders }) => {
         })
         .catch((error) => {
             console.log(error);
-          });   
+          }); 
+        }  
         };
 
   const folderItems = folders.map((folder) => (
@@ -79,7 +97,7 @@ const AddNote = ({ folders }) => {
             name="name"
             id="name"
           ></input>
-          {(noteItem.name.length === 0) && <div>{validateName()}</div>}
+          {error && <div>{error}</div>}
           <label htmlFor="content">Content</label>
           <input
             onChange={(e) => updateNoteItemContent(e.target.value)}
