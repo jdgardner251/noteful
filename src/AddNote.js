@@ -6,7 +6,7 @@ const AddNote = ({ folders }) => {
 
   useEffect(() => {
     if (folders.length) {
-      updateNoteItemFolderID(folders[0].id)
+      setNoteItem( noteItem => ({...noteItem, folderId: folders[0].id}))
     } 
   },
   [folders]
